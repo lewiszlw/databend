@@ -176,6 +176,7 @@ impl<'a> Binder {
         bind_context: &mut BindContext,
         stmt: &Statement,
     ) -> Result<Plan> {
+        println!("LWZTEST bind_statement: {:?}", stmt);
         let plan = match stmt {
             Statement::Query(query) => {
                 let (mut s_expr, bind_context) = self.bind_query(bind_context, query).await?;

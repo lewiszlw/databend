@@ -385,7 +385,7 @@ impl Binder {
         }
         if !star && !match_table {
             return Err(ErrorCode::UnknownTable(format!(
-                "Unknown table '{}'",
+                "Unknown table '{}' - LWZTEST",
                 table_name.unwrap().name
             ))
             .set_span(span));

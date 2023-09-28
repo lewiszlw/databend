@@ -190,9 +190,14 @@ impl Catalog for ImmutableCatalog {
         db_name: &str,
         table_name: &str,
     ) -> Result<Arc<dyn Table>> {
+        println!("LWZTEST immutable_catalog get_table tenant: {}, db_name: {}, table_name: {}", tenant, db_name, table_name);
         let _db = self.get_database(tenant, db_name).await?;
+        println!("LWZTEST immutable_catalog get_table _db: {}", _db.name());
 
-        self.sys_db_meta.get_by_name(db_name, table_name)
+        let result = self.sys_db_meta.get_by_name(db_name, table_name);
+        println!("LWZTEST immutable_catalog get_table result.is_ok: {:?}", result.is_ok());
+
+        result
     }
 
     #[async_backtrace::framed]

@@ -284,6 +284,7 @@ impl Catalog for DatabaseCatalog {
         db_name: &str,
         table_name: &str,
     ) -> Result<Arc<dyn Table>> {
+        println!("LWZTEST DatabaseCatalog get_table tenant: {}, db_name: {}, table_name: {}", tenant, db_name, table_name);
         if tenant.is_empty() {
             return Err(ErrorCode::TenantIsEmpty(
                 "Tenant can not empty(while get table)",
@@ -302,6 +303,7 @@ impl Catalog for DatabaseCatalog {
                         .get_table(tenant, db_name, table_name)
                         .await
                 } else {
+                    println!("LWZTEST DatabaseCatalog get_table err: {:?}", e);
                     Err(e)
                 }
             }

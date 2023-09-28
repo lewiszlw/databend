@@ -35,6 +35,7 @@ use crate::util::transform_span;
 use crate::Backtrace;
 
 pub fn tokenize_sql(sql: &str) -> Result<Vec<Token>> {
+    println!("LWZTEST tokenize_sql: {}", sql);
     Tokenizer::new(sql).collect::<Result<Vec<_>>>()
 }
 
@@ -43,6 +44,7 @@ pub fn parse_sql<'a>(
     sql_tokens: &'a [Token<'a>],
     dialect: Dialect,
 ) -> Result<(Statement, Option<String>)> {
+    println!("LWZTEST parse_sql");
     let backtrace = Backtrace::new();
     match statement(Input(sql_tokens, dialect, &backtrace)) {
         Ok((rest, stmts)) if rest[0].kind == TokenKind::EOI => Ok((stmts.stmt, stmts.format)),

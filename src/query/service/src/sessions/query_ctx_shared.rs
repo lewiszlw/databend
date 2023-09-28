@@ -260,9 +260,11 @@ impl QueryContextShared {
     ) -> Result<Arc<dyn Table>> {
         // Always get same table metadata in the same query
 
+        println!("LWZTEST get_table, catalog: {}, database: {}, table: {}", catalog, database, table);
         let table_meta_key = (catalog.to_string(), database.to_string(), table.to_string());
 
         let already_in_cache = { self.tables_refs.lock().contains_key(&table_meta_key) };
+        println!("LWZTEST already_in_cache: {}", already_in_cache);
         match already_in_cache {
             false => self.get_table_to_cache(catalog, database, table).await,
             true => Ok(self
@@ -284,7 +286,9 @@ impl QueryContextShared {
         let tenant = self.get_tenant();
         let table_meta_key = (catalog.to_string(), database.to_string(), table.to_string());
         let catalog = self.catalog_manager.get_catalog(&tenant, catalog).await?;
+        println!("LWZTEST get_table_to_cache catalog: {:?}", catalog.name());
         let cache_table = catalog.get_table(tenant.as_str(), database, table).await?;
+        println!("LWZTEST get_table_to_cache cache_table: {:?}", cache_table.name());
 
         let mut tables_refs = self.tables_refs.lock();
 

@@ -76,6 +76,7 @@ impl Binder {
         bind_context: &mut BindContext,
         stmt: &InsertStmt,
     ) -> Result<Plan> {
+        println!("LWZTEST bind_insert: {:?}", stmt);
         let InsertStmt {
             catalog,
             database,
@@ -87,10 +88,12 @@ impl Binder {
         } = stmt;
         let (catalog_name, database_name, table_name) =
             self.normalize_object_identifier_triple(catalog, database, table);
+        println!("LWZTEST bind_insert, table_name: {:?}", table_name);
         let table = self
             .ctx
             .get_table(&catalog_name, &database_name, &table_name)
             .await?;
+        println!("LWZTEST bind_insert, table: {:?}", table.name());
         let table_id = table.get_id();
         let schema = self.schema_project(&table.schema(), columns)?;
 
